@@ -1,0 +1,24 @@
+{
+    "name": "studyvault",
+    "version": "1.0.0",
+    "description": "A beautiful student notes management platform with Firebase backend",
+    "main": "index.html",
+    "scripts": {
+        "dev": "npx http-server -p 8000 -o",
+        "deploy": "firebase deploy",
+        "deploy:hosting": "firebase deploy --only hosting",
+        "deploy:rules": "firebase deploy --only firestore:rules,storage:rules"
+    },
+    "keywords": [
+        "notes",
+        "student",
+        "firebase",
+        "study",
+        "education"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "devDependencies": {
+        "http-server": "^14.1.1"
+    }
+}

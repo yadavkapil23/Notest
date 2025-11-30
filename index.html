@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notes - Placement Prep</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css?v=3">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-[#0d1117] text-[#c9d1d9] font-sans min-h-screen">
+    <!-- Authentication -->
+    <div id="authContainer" class="hidden min-h-screen flex items-center justify-center p-4 bg-[#0d1117]">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-[#21262d] border border-[#30363d] rounded-xl mb-4">
+                    <i class="fas fa-sticky-note text-2xl text-[#58a6ff]"></i>
+                </div>
+                <h1 class="text-4xl font-semibold mb-2 text-[#f0f6fc]">My Notes</h1>
+                <p class="text-[#8b949e]">Your personal note-taking space</p>
+            </div>
+
+            <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-8 shadow-xl">
+                <!-- Login Form -->
+                <div id="loginForm">
+                    <h2 class="text-2xl font-semibold mb-6 text-[#f0f6fc]">Sign In</h2>
+                    <form id="loginFormElement" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Email</label>
+                            <input type="email" id="loginEmail" required
+                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Password</label>
+                            <input type="password" id="loginPassword" required
+                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                placeholder="••••••••">
+                        </div>
+                        <button type="submit"
+                            class="w-full py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium rounded-lg transition-colors">
+                            Sign In
+                        </button>
+                    </form>
+                    <p class="mt-5 text-center text-[#8b949e] text-sm">
+                        Don't have an account?
+                        <button onclick="toggleAuthForms()" class="text-[#58a6ff] hover:text-[#79c0ff] font-medium ml-1">Sign Up</button>
+                    </p>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerForm" class="hidden">
+                    <h2 class="text-2xl font-semibold mb-6 text-[#f0f6fc]">Create Account</h2>
+                    <form id="registerFormElement" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Full Name</label>
+                            <input type="text" id="registerName" required
+                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Email</label>
+                            <input type="email" id="registerEmail" required
+                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Password</label>
+                            <input type="password" id="registerPassword" required
+                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                placeholder="••••••••">
+                        </div>
+                        <button type="submit"
+                            class="w-full py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium rounded-lg transition-colors">
+                            Create Account
+                        </button>
+                    </form>
+                    <p class="mt-5 text-center text-[#8b949e] text-sm">
+                        Already have an account?
+                        <button onclick="toggleAuthForms()" class="text-[#58a6ff] hover:text-[#79c0ff] font-medium ml-1">Sign In</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="appContainer" class="hidden">
+        <!-- Header -->
+        <header class="bg-[#161b22] border-b border-[#30363d] sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-[#21262d] border border-[#30363d] rounded-lg flex items-center justify-center">
+                        <i class="fas fa-sticky-note text-[#58a6ff] text-sm"></i>
+                    </div>
+                    <h1 class="text-lg font-semibold text-[#f0f6fc]">My Notes</h1>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="userNameDisplay" class="text-xs text-[#8b949e] px-3 py-1.5 bg-[#21262d] rounded-md border border-[#30363d]"></span>
+                    <button onclick="openAddNoteModal()"
+                        class="px-4 py-2 bg-[#238636] hover:bg-[#2ea043] text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
+                        <i class="fas fa-plus text-xs"></i>New Note
+                    </button>
+                    <button onclick="handleLogout()"
+                        class="px-3 py-2 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-colors border border-[#30363d]">
+                        <i class="fas fa-sign-out-alt text-xs text-[#c9d1d9]"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-6 py-6">
+            <div id="notesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Notes will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Note Modal -->
+    <div id="noteModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-[#161b22] border border-[#30363d] rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+            <div class="p-4 border-b border-[#30363d] flex items-center justify-between bg-[#0d1117]">
+                <h3 class="text-lg font-semibold text-[#f0f6fc]" id="modalTitle">New Note</h3>
+                <button onclick="closeNoteModal()" class="text-[#8b949e] hover:text-[#c9d1d9] transition-colors w-8 h-8 flex items-center justify-center rounded hover:bg-[#21262d]">
+                    <i class="fas fa-times text-sm"></i>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
+                <form id="noteForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Title *</label>
+                        <input type="text" id="noteTitle" required
+                            class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] text-sm transition-all"
+                            placeholder="Enter note title">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Content Type *</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <label class="relative flex flex-col items-center justify-center p-4 bg-[#0d1117] border border-[#30363d] rounded-lg cursor-pointer transition-all hover:border-[#1f6feb] hover:bg-[#161b22] has-[:checked]:border-[#1f6feb] has-[:checked]:bg-[#1f6feb]/10">
+                                <input type="radio" name="contentType" value="text" checked onchange="handleContentTypeChange()" class="sr-only">
+                                <i class="fas fa-file-alt text-2xl mb-2 text-[#58a6ff]"></i>
+                                <span class="text-xs font-medium text-[#c9d1d9]">Text</span>
+                            </label>
+                            <label class="relative flex flex-col items-center justify-center p-4 bg-[#0d1117] border border-[#30363d] rounded-lg cursor-pointer transition-all hover:border-[#1f6feb] hover:bg-[#161b22] has-[:checked]:border-[#1f6feb] has-[:checked]:bg-[#1f6feb]/10">
+                                <input type="radio" name="contentType" value="code" onchange="handleContentTypeChange()" class="sr-only">
+                                <i class="fas fa-code text-2xl mb-2 text-[#7ee787]"></i>
+                                <span class="text-xs font-medium text-[#c9d1d9]">Code</span>
+                            </label>
+                            <label class="relative flex flex-col items-center justify-center p-4 bg-[#0d1117] border border-[#30363d] rounded-lg cursor-pointer transition-all hover:border-[#1f6feb] hover:bg-[#161b22] has-[:checked]:border-[#1f6feb] has-[:checked]:bg-[#1f6feb]/10">
+                                <input type="radio" name="contentType" value="image" onchange="handleContentTypeChange()" class="sr-only">
+                                <i class="fas fa-image text-2xl mb-2 text-[#f85149]"></i>
+                                <span class="text-xs font-medium text-[#c9d1d9]">Image</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Text Content -->
+                    <div id="textContent" class="content-section">
+                        <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Content *</label>
+                        <textarea id="noteTextContent" rows="14"
+                            class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] resize-none placeholder-[#6e7681] text-sm font-sans"
+                            placeholder="Write your notes here..."></textarea>
+                    </div>
+
+                    <!-- Code Content -->
+                    <div id="codeContent" class="content-section hidden">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Programming Language</label>
+                            <input type="text" id="codeLanguage"
+                                class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] text-sm transition-all"
+                                placeholder="e.g., Python, JavaScript, C++">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Code *</label>
+                            <textarea id="noteCodeContent" rows="14"
+                                class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#7ee787] resize-none font-mono text-sm placeholder-[#6e7681]"
+                                placeholder="Paste your code here..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div id="imageContent" class="content-section hidden">
+                        <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Upload Image * (Max 1MB)</label>
+                        <input type="file" id="imageUpload" accept="image/*" class="hidden"
+                            onchange="handleFilePreview(this, 'imagePreview')">
+                        <button type="button" onclick="document.getElementById('imageUpload').click()"
+                            class="w-full px-4 py-8 border-2 border-dashed border-[#30363d] rounded-lg hover:border-[#1f6feb] hover:bg-[#161b22] transition-all flex flex-col items-center justify-center space-y-2 text-[#8b949e] hover:text-[#58a6ff] bg-[#0d1117]">
+                            <i class="fas fa-cloud-upload-alt text-3xl"></i>
+                            <span class="text-sm font-medium">Click to upload image</span>
+                        </button>
+                        <div id="imagePreview" class="mt-4 hidden">
+                            <img src="" alt="Preview" class="max-w-full h-auto rounded-lg border border-[#30363d]">
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-3 pt-4 border-t border-[#30363d]">
+                        <button type="submit"
+                            class="flex-1 py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium rounded-lg transition-colors text-sm">
+                            <i class="fas fa-save mr-2"></i>Save Note
+                        </button>
+                        <button type="button" onclick="closeNoteModal()"
+                            class="px-4 py-2.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg font-medium transition-colors text-sm border border-[#30363d] text-[#c9d1d9]">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Note Modal -->
+    <div id="viewNoteModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-[#161b22] border border-[#30363d] rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+            <div class="p-4 border-b border-[#30363d] flex items-center justify-between bg-[#0d1117]">
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-[#f0f6fc]" id="viewNoteTitle"></h3>
+                    <p class="text-xs text-[#8b949e] mt-1" id="viewNoteDate"></p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="editNote(currentViewingNoteId)"
+                        class="px-3 py-1.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-colors border border-[#30363d] text-[#58a6ff] hover:text-[#79c0ff] text-sm">
+                        <i class="fas fa-edit mr-1.5"></i>Edit
+                    </button>
+                    <button onclick="deleteNote(currentViewingNoteId)"
+                        class="px-3 py-1.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-colors border border-[#30363d] text-[#f85149] hover:text-[#ff6b6b] text-sm">
+                        <i class="fas fa-trash mr-1.5"></i>Delete
+                    </button>
+                    <button onclick="closeViewNoteModal()" class="text-[#8b949e] hover:text-[#c9d1d9] transition-colors w-8 h-8 flex items-center justify-center rounded hover:bg-[#21262d] ml-2">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]" id="viewNoteContent">
+                <!-- Note content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="firebase-config.js?v=3"></script>
+    <script type="module" src="app.js?v=3"></script>
+    <script src="ui.js?v=3"></script>
+</body>
+
+</html>
