@@ -9,7 +9,8 @@ yarn.lock
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
-firebase-config.js
+# firebase-config.js - Commented out for Netlify deployment
+# Note: Firebase API keys are safe to expose in client-side code
 
 # Environment variables
 .env
