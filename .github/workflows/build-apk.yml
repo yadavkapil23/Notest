@@ -25,7 +25,8 @@ jobs:
     
     - name: Install Capacitor
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/android
+        # Install Capacitor 5.x (more stable, compatible with API 34)
+        npm install @capacitor/core@^5.0.0 @capacitor/cli@^5.0.0 @capacitor/android@^5.0.0
     
     - name: Prepare web directory
       run: |
@@ -80,6 +81,21 @@ jobs:
     
     - name: Grant execute permission for gradlew
       run: chmod +x android/gradlew
+    
+    - name: Update Android build.gradle for API 34
+      run: |
+        cd android/app
+        if [ -f "build.gradle" ]; then
+          # Use API 34 (compatible with Capacitor 5.x)
+          sed -i 's/compileSdkVersion [0-9]*/compileSdkVersion 34/' build.gradle || \
+          sed -i '/android {/a\    compileSdkVersion 34' build.gradle || true
+          sed -i 's/targetSdkVersion [0-9]*/targetSdkVersion 34/' build.gradle || \
+          sed -i '/defaultConfig {/a\        targetSdkVersion 34' build.gradle || true
+          # Ensure minSdkVersion is reasonable
+          sed -i 's/minSdkVersion [0-9]*/minSdkVersion 22/' build.gradle || \
+          sed -i '/defaultConfig {/a\        minSdkVersion 22' build.gradle || true
+        fi
+        cd ../..
     
     - name: Build APK
       run: |
