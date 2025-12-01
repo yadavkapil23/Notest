@@ -12,13 +12,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=4">
 
     <script>
         tailwind.config = {
@@ -34,76 +34,76 @@
     </script>
 </head>
 
-<body class="bg-[#0d1117] text-[#c9d1d9] font-sans min-h-screen">
+<body class="bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen">
     <!-- Authentication -->
-    <div id="authContainer" class="hidden min-h-screen flex items-center justify-center p-4 bg-[#0d1117]">
+    <div id="authContainer" class="hidden min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#0d1117] via-[#161b22] to-[#0d1117]">
         <div class="w-full max-w-md">
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-[#21262d] border border-[#30363d] rounded-xl mb-4">
-                    <i class="fas fa-sticky-note text-2xl text-[#58a6ff]"></i>
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#1f6feb] to-[#58a6ff] rounded-2xl mb-6 shadow-2xl shadow-blue-500/20">
+                    <i class="fas fa-sticky-note text-3xl text-white"></i>
                 </div>
-                <h1 class="text-4xl font-semibold mb-2 text-[#f0f6fc]">My Notes</h1>
-                <p class="text-[#8b949e]">Your personal note-taking space</p>
+                <h1 class="text-5xl font-bold mb-3 bg-gradient-to-r from-[#58a6ff] to-[#79c0ff] bg-clip-text text-transparent">My Notes</h1>
+                <p class="text-[#7d8590] text-lg">Your personal note-taking space</p>
             </div>
 
-            <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-8 shadow-xl">
+            <div class="bg-[#161b22] border border-[#30363d] rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
                 <!-- Login Form -->
                 <div id="loginForm">
-                    <h2 class="text-2xl font-semibold mb-6 text-[#f0f6fc]">Sign In</h2>
-                    <form id="loginFormElement" class="space-y-4">
+                    <h2 class="text-3xl font-bold mb-8 text-[#e6edf3]">Welcome Back</h2>
+                    <form id="loginFormElement" class="space-y-5">
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Email</label>
+                            <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Email</label>
                             <input type="email" id="loginEmail" required
-                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                class="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#e6edf3] placeholder-[#6e7681] transition-all hover:border-[#484f58]"
                                 placeholder="your@email.com">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Password</label>
+                            <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Password</label>
                             <input type="password" id="loginPassword" required
-                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                class="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#e6edf3] placeholder-[#6e7681] transition-all hover:border-[#484f58]"
                                 placeholder="••••••••">
                         </div>
                         <button type="submit"
-                            class="w-full py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium rounded-lg transition-colors">
+                            class="w-full py-3 bg-[#238636] hover:bg-[#2ea043] text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-green-500/20">
                             Sign In
                         </button>
                     </form>
-                    <p class="mt-5 text-center text-[#8b949e] text-sm">
+                    <p class="mt-6 text-center text-[#7d8590] text-sm">
                         Don't have an account?
-                        <button onclick="toggleAuthForms()" class="text-[#58a6ff] hover:text-[#79c0ff] font-medium ml-1">Sign Up</button>
+                        <button onclick="toggleAuthForms()" class="text-[#58a6ff] hover:text-[#79c0ff] font-semibold ml-1 transition-colors">Sign Up</button>
                     </p>
                 </div>
 
                 <!-- Register Form -->
                 <div id="registerForm" class="hidden">
-                    <h2 class="text-2xl font-semibold mb-6 text-[#f0f6fc]">Create Account</h2>
-                    <form id="registerFormElement" class="space-y-4">
+                    <h2 class="text-3xl font-bold mb-8 text-[#e6edf3]">Create Account</h2>
+                    <form id="registerFormElement" class="space-y-5">
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Full Name</label>
+                            <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Full Name</label>
                             <input type="text" id="registerName" required
-                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                class="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#e6edf3] placeholder-[#6e7681] transition-all hover:border-[#484f58]"
                                 placeholder="John Doe">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Email</label>
+                            <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Email</label>
                             <input type="email" id="registerEmail" required
-                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                class="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#e6edf3] placeholder-[#6e7681] transition-all hover:border-[#484f58]"
                                 placeholder="your@email.com">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Password</label>
+                            <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Password</label>
                             <input type="password" id="registerPassword" required
-                                class="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] transition-all"
+                                class="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#e6edf3] placeholder-[#6e7681] transition-all hover:border-[#484f58]"
                                 placeholder="••••••••">
                         </div>
                         <button type="submit"
-                            class="w-full py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium rounded-lg transition-colors">
+                            class="w-full py-3 bg-[#238636] hover:bg-[#2ea043] text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-green-500/20">
                             Create Account
                         </button>
                     </form>
-                    <p class="mt-5 text-center text-[#8b949e] text-sm">
+                    <p class="mt-6 text-center text-[#7d8590] text-sm">
                         Already have an account?
-                        <button onclick="toggleAuthForms()" class="text-[#58a6ff] hover:text-[#79c0ff] font-medium ml-1">Sign In</button>
+                        <button onclick="toggleAuthForms()" class="text-[#58a6ff] hover:text-[#79c0ff] font-semibold ml-1 transition-colors">Sign In</button>
                     </p>
                 </div>
             </div>
@@ -113,42 +113,45 @@
     <!-- Main App -->
     <div id="appContainer" class="hidden">
         <!-- Header -->
-        <header class="bg-[#161b22] border-b border-[#30363d] sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        <header class="bg-[#161b22]/80 backdrop-blur-xl border-b border-[#21262d] sticky top-0 z-50 shadow-lg">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-[#21262d] border border-[#30363d] rounded-lg flex items-center justify-center">
-                        <i class="fas fa-sticky-note text-[#58a6ff] text-sm"></i>
+                    <div class="w-10 h-10 bg-gradient-to-br from-[#1f6feb] to-[#58a6ff] rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-sticky-note text-white text-sm"></i>
                     </div>
-                    <h1 class="text-lg font-semibold text-[#f0f6fc]">My Notes</h1>
+                    <div>
+                        <h1 class="text-xl font-bold text-[#e6edf3]">My Notes</h1>
+                        <p class="text-xs text-[#7d8590]">Placement Prep</p>
+                    </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span id="userNameDisplay" class="text-xs text-[#8b949e] px-3 py-1.5 bg-[#21262d] rounded-md border border-[#30363d]"></span>
+                    <span id="userNameDisplay" class="text-xs text-[#7d8590] px-3 py-1.5 bg-[#21262d] rounded-lg border border-[#30363d]"></span>
                     <button onclick="openAddNoteModal()"
-                        class="px-4 py-2 bg-[#238636] hover:bg-[#2ea043] text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
+                        class="px-5 py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white text-sm font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg shadow-green-500/20 flex items-center gap-2">
                         <i class="fas fa-plus text-xs"></i>New Note
                     </button>
                     <button onclick="handleLogout()"
-                        class="px-3 py-2 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-colors border border-[#30363d]">
-                        <i class="fas fa-sign-out-alt text-xs text-[#c9d1d9]"></i>
+                        class="px-3 py-2.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-all border border-[#30363d]">
+                        <i class="fas fa-sign-out-alt text-xs text-[#e6edf3]"></i>
                     </button>
                 </div>
             </div>
         </header>
 
         <!-- Main Content -->
-        <main class="max-w-7xl mx-auto px-6 py-6">
-            <div id="notesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <main class="max-w-7xl mx-auto px-6 py-8">
+            <div id="notesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <!-- Notes will be loaded here -->
             </div>
         </main>
     </div>
 
     <!-- Add/Edit Note Modal -->
-    <div id="noteModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-[#161b22] border border-[#30363d] rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
-            <div class="p-4 border-b border-[#30363d] flex items-center justify-between bg-[#0d1117]">
-                <h3 class="text-lg font-semibold text-[#f0f6fc]" id="modalTitle">New Note</h3>
-                <button onclick="closeNoteModal()" class="text-[#8b949e] hover:text-[#c9d1d9] transition-colors w-8 h-8 flex items-center justify-center rounded hover:bg-[#21262d]">
+    <div id="noteModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-[#161b22] border border-[#30363d] rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+            <div class="p-5 border-b border-[#21262d] flex items-center justify-between bg-gradient-to-r from-[#1f6feb]/10 to-[#58a6ff]/10">
+                <h3 class="text-xl font-bold text-[#e6edf3]" id="modalTitle">New Note</h3>
+                <button onclick="closeNoteModal()" class="text-[#7d8590] hover:text-[#e6edf3] transition-colors w-9 h-9 flex items-center justify-center rounded-lg hover:bg-[#21262d]">
                     <i class="fas fa-times text-sm"></i>
                 </button>
             </div>
@@ -156,79 +159,79 @@
             <div class="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
                 <form id="noteForm" class="space-y-5">
                     <div>
-                        <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Title *</label>
+                        <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Title *</label>
                         <input type="text" id="noteTitle" required
-                            class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] text-sm transition-all"
+                            class="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#e6edf3] placeholder-[#6e7681] text-sm transition-all hover:border-[#484f58]"
                             placeholder="Enter note title">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Content Type *</label>
+                        <label class="block text-sm font-semibold mb-3 text-[#e6edf3]">Content Type *</label>
                         <div class="grid grid-cols-3 gap-3">
-                            <label class="relative flex flex-col items-center justify-center p-4 bg-[#0d1117] border border-[#30363d] rounded-lg cursor-pointer transition-all hover:border-[#1f6feb] hover:bg-[#161b22] has-[:checked]:border-[#1f6feb] has-[:checked]:bg-[#1f6feb]/10">
+                            <label class="relative flex flex-col items-center justify-center p-5 bg-[#0d1117] border-2 border-[#30363d] rounded-xl cursor-pointer transition-all hover:border-[#58a6ff] hover:bg-[#1c2128] has-[:checked]:border-[#58a6ff] has-[:checked]:bg-[#1f6feb]/10 has-[:checked]:shadow-lg has-[:checked]:shadow-blue-500/20">
                                 <input type="radio" name="contentType" value="text" checked onchange="handleContentTypeChange()" class="sr-only">
-                                <i class="fas fa-file-alt text-2xl mb-2 text-[#58a6ff]"></i>
-                                <span class="text-xs font-medium text-[#c9d1d9]">Text</span>
+                                <i class="fas fa-file-alt text-3xl mb-2 text-[#58a6ff]"></i>
+                                <span class="text-xs font-semibold text-[#e6edf3]">Text</span>
                             </label>
-                            <label class="relative flex flex-col items-center justify-center p-4 bg-[#0d1117] border border-[#30363d] rounded-lg cursor-pointer transition-all hover:border-[#1f6feb] hover:bg-[#161b22] has-[:checked]:border-[#1f6feb] has-[:checked]:bg-[#1f6feb]/10">
+                            <label class="relative flex flex-col items-center justify-center p-5 bg-[#0d1117] border-2 border-[#30363d] rounded-xl cursor-pointer transition-all hover:border-[#7ee787] hover:bg-[#1c2128] has-[:checked]:border-[#7ee787] has-[:checked]:bg-[#238636]/10 has-[:checked]:shadow-lg has-[:checked]:shadow-green-500/20">
                                 <input type="radio" name="contentType" value="code" onchange="handleContentTypeChange()" class="sr-only">
-                                <i class="fas fa-code text-2xl mb-2 text-[#7ee787]"></i>
-                                <span class="text-xs font-medium text-[#c9d1d9]">Code</span>
+                                <i class="fas fa-code text-3xl mb-2 text-[#7ee787]"></i>
+                                <span class="text-xs font-semibold text-[#e6edf3]">Code</span>
                             </label>
-                            <label class="relative flex flex-col items-center justify-center p-4 bg-[#0d1117] border border-[#30363d] rounded-lg cursor-pointer transition-all hover:border-[#1f6feb] hover:bg-[#161b22] has-[:checked]:border-[#1f6feb] has-[:checked]:bg-[#1f6feb]/10">
+                            <label class="relative flex flex-col items-center justify-center p-5 bg-[#0d1117] border-2 border-[#30363d] rounded-xl cursor-pointer transition-all hover:border-[#f85149] hover:bg-[#1c2128] has-[:checked]:border-[#f85149] has-[:checked]:bg-[#da3633]/10 has-[:checked]:shadow-lg has-[:checked]:shadow-red-500/20">
                                 <input type="radio" name="contentType" value="image" onchange="handleContentTypeChange()" class="sr-only">
-                                <i class="fas fa-image text-2xl mb-2 text-[#f85149]"></i>
-                                <span class="text-xs font-medium text-[#c9d1d9]">Image</span>
+                                <i class="fas fa-image text-3xl mb-2 text-[#f85149]"></i>
+                                <span class="text-xs font-semibold text-[#e6edf3]">Image</span>
                             </label>
                         </div>
                     </div>
 
                     <!-- Text Content -->
                     <div id="textContent" class="content-section">
-                        <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Content *</label>
+                        <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Content *</label>
                         <textarea id="noteTextContent" rows="14"
-                            class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] resize-none placeholder-[#6e7681] text-sm font-sans"
+                            class="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#e6edf3] resize-none placeholder-[#6e7681] text-sm font-sans transition-all hover:border-[#484f58]"
                             placeholder="Write your notes here..."></textarea>
                     </div>
 
                     <!-- Code Content -->
                     <div id="codeContent" class="content-section hidden">
                         <div class="mb-4">
-                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Programming Language</label>
+                            <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Programming Language</label>
                             <input type="text" id="codeLanguage"
-                                class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#c9d1d9] placeholder-[#6e7681] text-sm transition-all"
+                                class="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#e6edf3] placeholder-[#6e7681] text-sm transition-all hover:border-[#484f58]"
                                 placeholder="e.g., Python, JavaScript, C++">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Code *</label>
+                            <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Code *</label>
                             <textarea id="noteCodeContent" rows="14"
-                                class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb] outline-none text-[#7ee787] resize-none font-mono text-sm placeholder-[#6e7681]"
+                                class="w-full px-4 py-3 bg-[#010409] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#7ee787] focus:border-[#7ee787] outline-none text-[#7ee787] resize-none font-mono text-sm placeholder-[#6e7681] transition-all hover:border-[#484f58]"
                                 placeholder="Paste your code here..."></textarea>
                         </div>
                     </div>
 
                     <!-- Image Upload -->
                     <div id="imageContent" class="content-section hidden">
-                        <label class="block text-sm font-medium mb-2 text-[#c9d1d9]">Upload Image * (Max 1MB)</label>
+                        <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Upload Image * (Max 1MB)</label>
                         <input type="file" id="imageUpload" accept="image/*" class="hidden"
                             onchange="handleFilePreview(this, 'imagePreview')">
                         <button type="button" onclick="document.getElementById('imageUpload').click()"
-                            class="w-full px-4 py-8 border-2 border-dashed border-[#30363d] rounded-lg hover:border-[#1f6feb] hover:bg-[#161b22] transition-all flex flex-col items-center justify-center space-y-2 text-[#8b949e] hover:text-[#58a6ff] bg-[#0d1117]">
-                            <i class="fas fa-cloud-upload-alt text-3xl"></i>
-                            <span class="text-sm font-medium">Click to upload image</span>
+                            class="w-full px-6 py-10 border-2 border-dashed border-[#30363d] rounded-xl hover:border-[#f85149] hover:bg-[#1c2128] transition-all flex flex-col items-center justify-center space-y-3 text-[#7d8590] hover:text-[#f85149] bg-[#0d1117]">
+                            <i class="fas fa-cloud-upload-alt text-4xl"></i>
+                            <span class="text-sm font-semibold">Click to upload image</span>
                         </button>
                         <div id="imagePreview" class="mt-4 hidden">
-                            <img src="" alt="Preview" class="max-w-full h-auto rounded-lg border border-[#30363d]">
+                            <img src="" alt="Preview" class="max-w-full h-auto rounded-xl border border-[#30363d] shadow-lg">
                         </div>
                     </div>
 
-                    <div class="flex space-x-3 pt-4 border-t border-[#30363d]">
+                    <div class="flex space-x-3 pt-5 border-t border-[#21262d]">
                         <button type="submit"
-                            class="flex-1 py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium rounded-lg transition-colors text-sm">
+                            class="flex-1 py-3 bg-[#238636] hover:bg-[#2ea043] text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-green-500/20 text-sm">
                             <i class="fas fa-save mr-2"></i>Save Note
                         </button>
                         <button type="button" onclick="closeNoteModal()"
-                            class="px-4 py-2.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg font-medium transition-colors text-sm border border-[#30363d] text-[#c9d1d9]">
+                            class="px-6 py-3 bg-[#21262d] hover:bg-[#30363d] rounded-lg font-semibold transition-all text-sm border border-[#30363d] text-[#e6edf3]">
                             Cancel
                         </button>
                     </div>
@@ -238,23 +241,23 @@
     </div>
 
     <!-- View Note Modal -->
-    <div id="viewNoteModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-[#161b22] border border-[#30363d] rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
-            <div class="p-4 border-b border-[#30363d] flex items-center justify-between bg-[#0d1117]">
+    <div id="viewNoteModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-[#161b22] border border-[#30363d] rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+            <div class="p-5 border-b border-[#21262d] flex items-center justify-between bg-gradient-to-r from-[#1f6feb]/10 to-[#58a6ff]/10">
                 <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-[#f0f6fc]" id="viewNoteTitle"></h3>
-                    <p class="text-xs text-[#8b949e] mt-1" id="viewNoteDate"></p>
+                    <h3 class="text-xl font-bold text-[#e6edf3]" id="viewNoteTitle"></h3>
+                    <p class="text-xs text-[#7d8590] mt-1.5" id="viewNoteDate"></p>
                 </div>
                 <div class="flex items-center space-x-2">
                     <button onclick="editNote(currentViewingNoteId)"
-                        class="px-3 py-1.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-colors border border-[#30363d] text-[#58a6ff] hover:text-[#79c0ff] text-sm">
+                        class="px-4 py-2 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-all border border-[#30363d] text-[#58a6ff] hover:text-[#79c0ff] text-sm font-medium">
                         <i class="fas fa-edit mr-1.5"></i>Edit
                     </button>
                     <button onclick="deleteNote(currentViewingNoteId)"
-                        class="px-3 py-1.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-colors border border-[#30363d] text-[#f85149] hover:text-[#ff6b6b] text-sm">
+                        class="px-4 py-2 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-all border border-[#30363d] text-[#f85149] hover:text-[#ff6b6b] text-sm font-medium">
                         <i class="fas fa-trash mr-1.5"></i>Delete
                     </button>
-                    <button onclick="closeViewNoteModal()" class="text-[#8b949e] hover:text-[#c9d1d9] transition-colors w-8 h-8 flex items-center justify-center rounded hover:bg-[#21262d] ml-2">
+                    <button onclick="closeViewNoteModal()" class="text-[#7d8590] hover:text-[#e6edf3] transition-colors w-9 h-9 flex items-center justify-center rounded-lg hover:bg-[#21262d] ml-2">
                         <i class="fas fa-times text-sm"></i>
                     </button>
                 </div>

@@ -1,4 +1,4 @@
-/* VS Code / ChatGPT Style - Compact Dark Theme */
+/* Modern VS Code / ChatGPT Style - Enhanced UI */
 
 * {
     margin: 0;
@@ -12,16 +12,18 @@ html {
 
 body {
     background: #0d1117;
-    color: #c9d1d9;
+    color: #e6edf3;
+    font-weight: 400;
+    line-height: 1.6;
 }
 
 /* Loading Spinner */
 .spinner {
-    border: 3px solid rgba(31, 111, 235, 0.1);
-    border-top: 3px solid #1f6feb;
+    border: 4px solid rgba(31, 111, 235, 0.1);
+    border-top: 4px solid #1f6feb;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     animation: spin 0.8s linear infinite;
 }
 
@@ -33,70 +35,76 @@ body {
 /* Toast Notification */
 .toast {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 28px;
+    right: 28px;
     background: #161b22;
-    color: #c9d1d9;
-    padding: 12px 16px;
-    border-radius: 6px;
+    color: #e6edf3;
+    padding: 14px 20px;
+    border-radius: 8px;
     border: 1px solid #30363d;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    animation: slideIn 0.3s ease-out;
+    animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     display: flex;
     align-items: center;
-    gap: 12px;
-    max-width: 400px;
+    gap: 14px;
+    max-width: 420px;
     font-size: 14px;
+    backdrop-filter: blur(10px);
 }
 
 @keyframes slideIn {
     from {
-        transform: translateX(400px);
+        transform: translateX(500px) scale(0.9);
         opacity: 0;
     }
     to {
-        transform: translateX(0);
+        transform: translateX(0) scale(1);
         opacity: 1;
     }
 }
 
 @keyframes slideOut {
     to {
-        transform: translateX(400px);
+        transform: translateX(500px) scale(0.9);
         opacity: 0;
     }
 }
 
 .toast.success {
-    border-left: 3px solid #238636;
-    background: #0d4429;
+    border-left: 4px solid #238636;
+    background: linear-gradient(135deg, #0d4429 0%, #161b22 100%);
+    box-shadow: 0 12px 32px rgba(35, 134, 54, 0.3);
 }
 
 .toast.error {
-    border-left: 3px solid #f85149;
-    background: #3d1319;
+    border-left: 4px solid #f85149;
+    background: linear-gradient(135deg, #3d1319 0%, #161b22 100%);
+    box-shadow: 0 12px 32px rgba(248, 81, 73, 0.3);
 }
 
 .toast.info {
-    border-left: 3px solid #1f6feb;
-    background: #0c2d6b;
+    border-left: 4px solid #1f6feb;
+    background: linear-gradient(135deg, #0c2d6b 0%, #161b22 100%);
+    box-shadow: 0 12px 32px rgba(31, 111, 235, 0.3);
 }
 
-/* Custom Scrollbar - VS Code Style */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
 }
 
 ::-webkit-scrollbar-track {
     background: #0d1117;
+    border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: #30363d;
-    border-radius: 5px;
+    border-radius: 6px;
     border: 2px solid #0d1117;
+    transition: background 0.2s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -106,13 +114,13 @@ body {
 /* Modal Animation */
 #noteModal.active > div,
 #viewNoteModal.active > div {
-    animation: modalSlideIn 0.2s ease-out;
+    animation: modalSlideIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @keyframes modalSlideIn {
     from {
         opacity: 0;
-        transform: scale(0.98) translateY(-10px);
+        transform: scale(0.96) translateY(-20px);
     }
     to {
         opacity: 1;
@@ -122,14 +130,30 @@ body {
 
 /* Note Card Hover Effects */
 #notesContainer > div {
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    overflow: hidden;
+}
+
+#notesContainer > div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+#notesContainer > div:hover::before {
+    left: 100%;
 }
 
 #notesContainer > div:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     border-color: #1f6feb;
-    box-shadow: 0 4px 12px rgba(31, 111, 235, 0.15);
+    box-shadow: 0 8px 24px rgba(31, 111, 235, 0.25);
 }
 
 /* Code Block Styling */
@@ -140,6 +164,7 @@ pre code {
     padding: 0;
     margin: 0;
     font-family: 'JetBrains Mono', monospace;
+    line-height: 1.7;
 }
 
 /* Empty State */
@@ -150,7 +175,7 @@ pre code {
 /* Input Focus Effects */
 input:focus,
 textarea:focus {
-    box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.1);
+    box-shadow: 0 0 0 4px rgba(31, 111, 235, 0.15);
 }
 
 /* Button Hover Effects */
@@ -165,7 +190,7 @@ button:not(:disabled):active {
 /* Selection */
 ::selection {
     background: rgba(31, 111, 235, 0.3);
-    color: #c9d1d9;
+    color: #e6edf3;
 }
 
 /* Focus Visible */
@@ -179,64 +204,110 @@ button:not(:disabled):active {
 * {
     transition-property: color, background-color, border-color, transform, box-shadow;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
+    transition-duration: 200ms;
 }
 
 /* Image Preview */
 #imagePreview img {
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
+    border-radius: 12px;
 }
 
 #imagePreview img:hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
 }
 
-/* Compact spacing for better density */
+/* Compact spacing */
 input, textarea, button, select {
     font-size: 14px;
 }
 
 /* VS Code style code syntax highlighting */
 .code-block {
-    background: #0d1117;
+    background: #010409;
     border: 1px solid #30363d;
-    border-radius: 6px;
-    padding: 16px;
+    border-radius: 8px;
+    padding: 20px;
     overflow-x: auto;
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.7;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Card Glow Effect */
+.card-glow {
+    box-shadow: 0 0 20px rgba(31, 111, 235, 0.1);
+}
+
+.card-glow:hover {
+    box-shadow: 0 0 30px rgba(31, 111, 235, 0.2);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .toast {
-        right: 12px;
-        left: 12px;
-        bottom: 12px;
+        right: 16px;
+        left: 16px;
+        bottom: 16px;
         max-width: none;
     }
     
     #notesContainer {
         grid-template-columns: 1fr;
+        gap: 4;
     }
 }
 
 /* Compact header */
 header {
-    min-height: 48px;
+    min-height: 56px;
 }
 
 /* Subtle animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
+        transform: translateY(0);
     }
 }
 
 .fade-in {
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Backdrop blur support */
+.backdrop-blur-xl {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* Enhanced border radius */
+.rounded-xl {
+    border-radius: 12px;
+}
+
+.rounded-2xl {
+    border-radius: 16px;
+}
+
+/* Better shadows */
+.shadow-lg {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.shadow-2xl {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }

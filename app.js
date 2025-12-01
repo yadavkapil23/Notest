@@ -317,12 +317,15 @@ function renderNotes() {
 
     if (allNotes.length === 0) {
         container.innerHTML = `
-            <div class="col-span-full text-center py-16">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-[#21262d] border border-[#30363d] rounded-lg mb-4">
-                    <i class="fas fa-sticky-note text-3xl text-[#58a6ff]"></i>
+            <div class="col-span-full text-center py-20">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#1f6feb] to-[#58a6ff] rounded-2xl mb-6 shadow-2xl shadow-blue-500/20">
+                    <i class="fas fa-sticky-note text-4xl text-white"></i>
                 </div>
-                <p class="text-lg font-semibold text-[#f0f6fc] mb-2">No notes yet</p>
-                <p class="text-sm text-[#8b949e]">Click "New Note" to create your first note</p>
+                <p class="text-2xl font-bold text-[#e6edf3] mb-3">No notes yet</p>
+                <p class="text-base text-[#7d8590] mb-6">Click "New Note" to create your first note</p>
+                <button onclick="openAddNoteModal()" class="px-6 py-3 bg-[#238636] hover:bg-[#2ea043] text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg shadow-green-500/20">
+                    <i class="fas fa-plus mr-2"></i>Create Your First Note
+                </button>
             </div>
         `;
         return;
@@ -335,36 +338,40 @@ function createNoteCard(note) {
     const date = note.createdAt?.toDate ? note.createdAt.toDate().toLocaleDateString() : 'Recent';
     
     const iconConfig = {
-        text: { icon: 'fa-file-alt', color: '#58a6ff', bg: '#1c2128', border: '#30363d' },
-        code: { icon: 'fa-code', color: '#7ee787', bg: '#1c2128', border: '#30363d' },
-        image: { icon: 'fa-image', color: '#f85149', bg: '#1c2128', border: '#30363d' }
+        text: { icon: 'fa-file-alt', color: '#58a6ff', bg: 'from-blue-500/20 to-blue-600/20', border: '#30363d' },
+        code: { icon: 'fa-code', color: '#7ee787', bg: 'from-green-500/20 to-green-600/20', border: '#30363d' },
+        image: { icon: 'fa-image', color: '#f85149', bg: 'from-red-500/20 to-red-600/20', border: '#30363d' }
     };
     
     const config = iconConfig[note.contentType] || iconConfig.text;
 
     const preview = note.contentType === 'text' 
-        ? `<p class="text-[#8b949e] line-clamp-2 mt-2 text-sm leading-relaxed">${escapeHtml(note.content.substring(0, 100))}${note.content.length > 100 ? '...' : ''}</p>`
+        ? `<p class="text-[#7d8590] line-clamp-3 mt-3 text-sm leading-relaxed">${escapeHtml(note.content.substring(0, 120))}${note.content.length > 120 ? '...' : ''}</p>`
         : note.contentType === 'code'
-        ? `<div class="mt-2 flex items-center gap-2">
-            <span class="px-2 py-0.5 bg-[#1c2128] text-[#7ee787] rounded text-xs font-medium border border-[#30363d]">Code</span>
-            ${note.fileData?.language ? `<span class="px-2 py-0.5 bg-[#21262d] text-[#8b949e] rounded text-xs border border-[#30363d]">${escapeHtml(note.fileData.language)}</span>` : ''}
+        ? `<div class="mt-3 flex items-center gap-2 flex-wrap">
+            <span class="px-2.5 py-1 bg-gradient-to-r ${config.bg} text-[#7ee787] rounded-md text-xs font-semibold border border-[#30363d]">Code</span>
+            ${note.fileData?.language ? `<span class="px-2.5 py-1 bg-[#21262d] text-[#7d8590] rounded-md text-xs font-medium border border-[#30363d]">${escapeHtml(note.fileData.language)}</span>` : ''}
           </div>`
-        : `<div class="mt-2">
-            <span class="px-2 py-0.5 bg-[#1c2128] text-[#f85149] rounded text-xs font-medium border border-[#30363d]">Image</span>
+        : `<div class="mt-3">
+            <span class="px-2.5 py-1 bg-gradient-to-r ${config.bg} text-[#f85149] rounded-md text-xs font-semibold border border-[#30363d]">Image</span>
           </div>`;
 
     return `
-        <div class="bg-[#161b22] border border-[#30363d] rounded-lg p-4 hover:border-[#1f6feb] transition-all cursor-pointer group" onclick="viewNote('${note.id}')">
-            <div class="flex items-start gap-3 mb-3">
-                <div class="w-10 h-10 bg-[#21262d] border border-[#30363d] rounded-lg flex items-center justify-center flex-shrink-0">
-                    <i class="fas ${config.icon} text-lg" style="color: ${config.color}"></i>
+        <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-5 hover:border-[#1f6feb] transition-all cursor-pointer group card-glow" onclick="viewNote('${note.id}')">
+            <div class="flex items-start gap-4 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br ${config.bg} border border-[#30363d] rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <i class="fas ${config.icon} text-xl" style="color: ${config.color}"></i>
                 </div>
                 <div class="flex-1 min-w-0">
-                    <h3 class="text-sm font-semibold text-[#f0f6fc] mb-1 line-clamp-2 group-hover:text-[#58a6ff] transition-colors">${escapeHtml(note.title)}</h3>
-                    <p class="text-xs text-[#6e7681]">${date}</p>
+                    <h3 class="text-base font-bold text-[#e6edf3] mb-1.5 line-clamp-2 group-hover:text-[#58a6ff] transition-colors">${escapeHtml(note.title)}</h3>
+                    <p class="text-xs text-[#6e7681] font-medium">${date}</p>
                 </div>
             </div>
             ${preview}
+            <div class="mt-4 pt-4 border-t border-[#21262d] flex items-center justify-between">
+                <span class="text-xs text-[#6e7681]">Click to view</span>
+                <i class="fas fa-arrow-right text-xs text-[#7d8590] group-hover:text-[#58a6ff] group-hover:translate-x-1 transition-all"></i>
+            </div>
         </div>
     `;
 }
@@ -385,30 +392,30 @@ window.viewNote = async function (noteId) {
 
     if (note.contentType === 'text') {
         contentHtml = `<div class="prose prose-invert max-w-none">
-           <p class="whitespace-pre-wrap text-[#c9d1d9] leading-relaxed text-sm">${escapeHtml(note.content)}</p>
+           <p class="whitespace-pre-wrap text-[#e6edf3] leading-relaxed text-base">${escapeHtml(note.content)}</p>
         </div>`;
     } else if (note.contentType === 'code') {
         contentHtml = `
-            ${note.fileData?.language ? `<div class="mb-4 px-3 py-2 bg-[#21262d] border border-[#30363d] rounded-lg inline-flex items-center space-x-2">
-                <i class="fas fa-code text-[#7ee787] text-sm"></i>
-                <span class="text-sm font-medium text-[#c9d1d9]">${escapeHtml(note.fileData.language)}</span>
+            ${note.fileData?.language ? `<div class="mb-5 px-4 py-2.5 bg-gradient-to-r from-[#238636]/20 to-[#2ea043]/20 border border-[#30363d] rounded-lg inline-flex items-center space-x-3 shadow-lg">
+                <i class="fas fa-code text-[#7ee787] text-lg"></i>
+                <span class="text-sm font-semibold text-[#e6edf3]">${escapeHtml(note.fileData.language)}</span>
             </div>` : ''}
-            <div class="bg-[#0d1117] border border-[#30363d] rounded-lg p-4 overflow-x-auto mt-4">
+            <div class="bg-[#010409] border border-[#30363d] rounded-xl p-5 overflow-x-auto mt-4 shadow-2xl code-block">
                 <pre class="text-[#7ee787] font-mono text-sm leading-relaxed"><code>${escapeHtml(note.content)}</code></pre>
             </div>
             <button onclick="copyToClipboard('${escapeHtml(note.content).replace(/'/g, "\\'")}')" 
-                class="mt-4 px-4 py-2 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-colors border border-[#30363d] text-[#7ee787] hover:text-[#9ef0a0] text-sm font-medium">
+                class="mt-5 px-5 py-2.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-all border border-[#30363d] text-[#7ee787] hover:text-[#9ef0a0] text-sm font-semibold transform hover:scale-105">
                 <i class="fas fa-copy mr-2"></i>Copy Code
             </button>
         `;
     } else if (note.contentType === 'image') {
         contentHtml = `
-            ${note.fileData?.fileName ? `<div class="mb-4 px-3 py-2 bg-[#21262d] border border-[#30363d] rounded-lg">
-                <p class="text-sm text-[#c9d1d9] font-medium"><i class="fas fa-file-image mr-2 text-[#f85149]"></i>${escapeHtml(note.fileData.fileName)}</p>
-                ${note.fileData?.fileSize ? `<p class="text-xs text-[#8b949e] mt-1">${escapeHtml(note.fileData.fileSize)}</p>` : ''}
+            ${note.fileData?.fileName ? `<div class="mb-5 px-4 py-2.5 bg-gradient-to-r from-[#da3633]/20 to-[#f85149]/20 border border-[#30363d] rounded-lg shadow-lg">
+                <p class="text-sm text-[#e6edf3] font-semibold"><i class="fas fa-file-image mr-2 text-[#f85149]"></i>${escapeHtml(note.fileData.fileName)}</p>
+                ${note.fileData?.fileSize ? `<p class="text-xs text-[#7d8590] mt-1.5">${escapeHtml(note.fileData.fileSize)}</p>` : ''}
             </div>` : ''}
             <div class="flex justify-center">
-                <img src="${note.fileUrl}" alt="${escapeHtml(note.title)}" class="max-w-full h-auto rounded-lg border border-[#30363d]">
+                <img src="${note.fileUrl}" alt="${escapeHtml(note.title)}" class="max-w-full h-auto rounded-xl border border-[#30363d] shadow-2xl">
             </div>
         `;
     }
