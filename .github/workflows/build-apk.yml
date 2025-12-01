@@ -27,10 +27,31 @@ jobs:
       run: |
         npm install @capacitor/core @capacitor/cli @capacitor/android
     
+    - name: Prepare web directory
+      run: |
+        # Create www directory and copy all web files
+        mkdir -p www
+        # Copy HTML files
+        cp *.html www/ 2>/dev/null || true
+        # Copy JS files
+        cp *.js www/ 2>/dev/null || true
+        # Copy CSS files
+        cp *.css www/ 2>/dev/null || true
+        # Copy JSON config files (but not package.json)
+        cp firebase*.json www/ 2>/dev/null || true
+        # Ensure firebase-config.js is copied
+        [ -f firebase-config.js ] && cp firebase-config.js www/ || echo "firebase-config.js not found"
+        # List what was copied for debugging
+        echo "Files copied to www:"
+        ls -la www/
+    
     - name: Initialize Capacitor (if not exists)
       run: |
         if [ ! -f "capacitor.config.json" ]; then
-          echo '{"appId":"com.mynotes.app","appName":"My Notes","webDir":"."}' > capacitor.config.json
+          npx cap init "My Notes" "com.mynotes.app" --web-dir="www"
+        else
+          # Update existing config to use www
+          node -e "const fs=require('fs'); const config=JSON.parse(fs.readFileSync('capacitor.config.json')); config.webDir='www'; fs.writeFileSync('capacitor.config.json', JSON.stringify(config, null, 2));"
         fi
     
     - name: Add Android platform
@@ -40,7 +61,8 @@ jobs:
         fi
     
     - name: Sync files
-      run: npx cap sync
+      run: |
+        npx cap sync android
     
     - name: Setup Java
       uses: actions/setup-java@v4
