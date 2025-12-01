@@ -67,8 +67,13 @@ jobs:
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
+    
+    - name: Verify Java version
+      run: |
+        java -version
+        echo "JAVA_HOME: $JAVA_HOME"
     
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
@@ -79,6 +84,9 @@ jobs:
     - name: Build APK
       run: |
         cd android
+        echo "Using Java:"
+        java -version
+        echo "JAVA_HOME: $JAVA_HOME"
         ./gradlew assembleDebug --no-daemon
     
     - name: Upload APK artifact
