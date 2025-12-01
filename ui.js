@@ -173,6 +173,12 @@ document.addEventListener('keydown', (e) => {
         if (!document.getElementById('viewNoteModal').classList.contains('hidden')) {
             closeViewNoteModal();
         }
+        if (!document.getElementById('analyticsModal').classList.contains('hidden')) {
+            closeAnalyticsModal();
+        }
+        if (!document.getElementById('deleteAccountModal').classList.contains('hidden')) {
+            closeDeleteAccountModal();
+        }
     }
 });
 
@@ -187,6 +193,18 @@ document.getElementById('noteModal')?.addEventListener('click', (e) => {
 document.getElementById('viewNoteModal')?.addEventListener('click', (e) => {
     if (e.target.id === 'viewNoteModal') {
         closeViewNoteModal();
+    }
+});
+
+document.getElementById('analyticsModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'analyticsModal') {
+        closeAnalyticsModal();
+    }
+});
+
+document.getElementById('deleteAccountModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'deleteAccountModal') {
+        closeDeleteAccountModal();
     }
 });
 

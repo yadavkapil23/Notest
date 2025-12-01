@@ -113,7 +113,9 @@ body {
 
 /* Modal Animation */
 #noteModal.active > div,
-#viewNoteModal.active > div {
+#viewNoteModal.active > div,
+#analyticsModal.active > div,
+#deleteAccountModal.active > div {
     animation: modalSlideIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
@@ -252,6 +254,34 @@ input, textarea, button, select {
     box-shadow: 0 0 30px rgba(31, 111, 235, 0.2);
 }
 
+/* User Menu Dropdown */
+#userMenu {
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* Analytics Cards */
+#analyticsContent .bg-\[#0d1117\] {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#analyticsContent .bg-\[#0d1117\]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Search Input Focus */
+#searchInput:focus {
+    border-color: #1f6feb;
+    box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.1);
+}
+
+/* Filter Selects */
+#dateFilter:focus,
+#sizeFilter:focus {
+    border-color: #1f6feb;
+    box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.1);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .toast {
@@ -264,6 +294,14 @@ input, textarea, button, select {
     #notesContainer {
         grid-template-columns: 1fr;
         gap: 4;
+    }
+    
+    header .flex.flex-col {
+        gap: 2;
+    }
+    
+    #analyticsContent .grid {
+        grid-template-columns: 1fr;
     }
 }
 
