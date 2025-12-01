@@ -7,7 +7,10 @@
         "dev": "npx http-server -p 8000 -o",
         "deploy": "firebase deploy",
         "deploy:hosting": "firebase deploy --only hosting",
-        "deploy:rules": "firebase deploy --only firestore:rules,storage:rules"
+        "deploy:rules": "firebase deploy --only firestore:rules,storage:rules",
+        "setup:android": "npm install @capacitor/core @capacitor/cli @capacitor/android && npx cap init && npx cap add android",
+        "sync:android": "npx cap sync",
+        "open:android": "npx cap open android"
     },
     "keywords": [
         "notes",
