@@ -214,27 +214,6 @@
                             placeholder="Enter note title">
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-semibold mb-3 text-[#e6edf3]">Content Type *</label>
-                        <div class="grid grid-cols-3 gap-3">
-                            <label class="relative flex flex-col items-center justify-center p-5 bg-[#0d1117] border-2 border-[#30363d] rounded-xl cursor-pointer transition-all hover:border-[#58a6ff] hover:bg-[#1c2128] has-[:checked]:border-[#58a6ff] has-[:checked]:bg-[#1f6feb]/10 has-[:checked]:shadow-lg has-[:checked]:shadow-blue-500/20">
-                                <input type="radio" name="contentType" value="text" checked onchange="handleContentTypeChange()" class="sr-only">
-                                <i class="fas fa-file-alt text-3xl mb-2 text-[#58a6ff]"></i>
-                                <span class="text-xs font-semibold text-[#e6edf3]">Text</span>
-                            </label>
-                            <label class="relative flex flex-col items-center justify-center p-5 bg-[#0d1117] border-2 border-[#30363d] rounded-xl cursor-pointer transition-all hover:border-[#7ee787] hover:bg-[#1c2128] has-[:checked]:border-[#7ee787] has-[:checked]:bg-[#238636]/10 has-[:checked]:shadow-lg has-[:checked]:shadow-green-500/20">
-                                <input type="radio" name="contentType" value="code" onchange="handleContentTypeChange()" class="sr-only">
-                                <i class="fas fa-code text-3xl mb-2 text-[#7ee787]"></i>
-                                <span class="text-xs font-semibold text-[#e6edf3]">Code</span>
-                            </label>
-                            <label class="relative flex flex-col items-center justify-center p-5 bg-[#0d1117] border-2 border-[#30363d] rounded-xl cursor-pointer transition-all hover:border-[#f85149] hover:bg-[#1c2128] has-[:checked]:border-[#f85149] has-[:checked]:bg-[#da3633]/10 has-[:checked]:shadow-lg has-[:checked]:shadow-red-500/20">
-                                <input type="radio" name="contentType" value="image" onchange="handleContentTypeChange()" class="sr-only">
-                                <i class="fas fa-image text-3xl mb-2 text-[#f85149]"></i>
-                                <span class="text-xs font-semibold text-[#e6edf3]">Image</span>
-                            </label>
-                        </div>
-                    </div>
-
                     <!-- Text Content -->
                     <div id="textContent" class="content-section">
                         <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Content *</label>
@@ -244,7 +223,7 @@
                     </div>
 
                     <!-- Code Content -->
-                    <div id="codeContent" class="content-section hidden">
+                    <div id="codeContent" class="content-section">
                         <div class="mb-4">
                             <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Programming Language</label>
                             <input type="text" id="codeLanguage"
@@ -260,7 +239,7 @@
                     </div>
 
                     <!-- Image Upload -->
-                    <div id="imageContent" class="content-section hidden">
+                    <div id="imageContent" class="content-section">
                         <label class="block text-sm font-semibold mb-2.5 text-[#e6edf3]">Upload Image * (Max 1MB)</label>
                         <input type="file" id="imageUpload" accept="image/*" class="hidden"
                             onchange="handleFilePreview(this, 'imagePreview')">

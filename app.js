@@ -169,7 +169,6 @@ async function handleSaveNote(e) {
     e.preventDefault();
 
     const title = document.getElementById('noteTitle').value.trim();
-    const contentType = document.querySelector('input[name="contentType"]:checked')?.value || 'text';
     const isPriority = false; // Keep for DB compatibility but don't use
 
     if (!title) {
@@ -180,51 +179,53 @@ async function handleSaveNote(e) {
     try {
         showLoading('Saving note...');
 
-        let content = '';
+        const textContent = document.getElementById('noteTextContent').value.trim();
+        const codeContent = document.getElementById('noteCodeContent').value.trim();
+        const codeLanguage = document.getElementById('codeLanguage').value.trim();
+        const imageInput = document.getElementById('imageUpload');
+        const imageFile = imageInput?.files[0] || null;
+
+        if (!textContent && !codeContent && !imageFile) {
+            showToast('Please add some text, code, or an image', 'error');
+            hideLoading();
+            return;
+        }
+
+        let imageUrl = null;
+        let imageMeta = null;
+        let subject = 'General'; // Keep for DB compatibility
+        let content = textContent || codeContent || '';
         let fileUrl = null;
         let fileData = null;
-        let subject = 'General'; // Keep for DB compatibility
 
-        // Handle different content types
-        if (contentType === 'text') {
-            content = document.getElementById('noteTextContent').value.trim();
-            if (!content) {
-                showToast('Please enter some content', 'error');
-                hideLoading();
-                return;
-            }
-        } else if (contentType === 'code') {
-            const code = document.getElementById('noteCodeContent').value.trim();
-            const language = document.getElementById('codeLanguage').value.trim();
-            if (!code) {
-                showToast('Please enter code', 'error');
-                hideLoading();
-                return;
-            }
-            content = code;
-            fileData = { language };
-        } else if (contentType === 'image') {
-            const imageFile = document.getElementById('imageUpload').files[0];
-            if (!imageFile) {
-                showToast('Please select an image', 'error');
-                hideLoading();
-                return;
-            }
-
-            // Check file size (1MB limit)
+        // Process image if present
+        if (imageFile) {
             if (imageFile.size > 1024 * 1024) {
                 showToast('Image must be under 1MB. Please resize it and try again.', 'error');
                 hideLoading();
                 return;
             }
 
-            // Convert image to base64
-            fileUrl = await convertFileToBase64(imageFile);
-            fileData = {
+            imageUrl = await convertFileToBase64(imageFile);
+            imageMeta = {
                 fileName: imageFile.name,
                 fileSize: formatFileSize(imageFile.size),
                 mimeType: imageFile.type
             };
+
+            // For backward compatibility
+            fileUrl = imageUrl;
+            fileData = { ...imageMeta };
+        }
+
+        // For backward compatibility, keep a primary contentType
+        let contentType = 'text';
+        if (imageUrl) {
+            contentType = 'image';
+        } else if (codeContent) {
+            contentType = 'code';
+            content = codeContent;
+            fileData = { language: codeLanguage };
         }
 
         const noteData = {
@@ -234,6 +235,12 @@ async function handleSaveNote(e) {
             content,
             fileUrl,
             fileData,
+            // New mixed-content fields
+            textContent,
+            codeContent,
+            codeLanguage,
+            imageUrl,
+            imageMeta,
             isPriority,
             userId: currentUser.uid,
             updatedAt: Timestamp.now()
@@ -287,24 +294,23 @@ window.editNote = async function (noteId) {
 
     // Populate form
     document.getElementById('noteTitle').value = note.title;
-    const contentTypeRadio = document.querySelector(`input[name="contentType"][value="${note.contentType || 'text'}"]`);
-    if (contentTypeRadio) {
-        contentTypeRadio.checked = true;
-    }
-    handleContentTypeChange();
 
-    if (note.contentType === 'text') {
-        document.getElementById('noteTextContent').value = note.content;
-    } else if (note.contentType === 'code') {
-        document.getElementById('noteCodeContent').value = note.content;
-        document.getElementById('codeLanguage').value = note.fileData?.language || '';
-    } else if (note.contentType === 'image') {
-        // For images, we can't restore the file input, but we can show the existing image
-        const preview = document.getElementById('imagePreview');
-        if (note.fileUrl) {
-            preview.querySelector('img').src = note.fileUrl;
-            preview.classList.remove('hidden');
-        }
+    // Support both legacy single-content notes and new mixed-content notes
+    const textValue = note.textContent ?? (note.contentType === 'text' ? note.content : '');
+    const codeValue = note.codeContent ?? (note.contentType === 'code' ? note.content : '');
+    const codeLangValue = note.codeLanguage ?? (note.fileData?.language || '');
+    const imageSrc = note.imageUrl || (note.contentType === 'image' ? note.fileUrl : null);
+
+    document.getElementById('noteTextContent').value = textValue || '';
+    document.getElementById('noteCodeContent').value = codeValue || '';
+    document.getElementById('codeLanguage').value = codeLangValue || '';
+
+    const preview = document.getElementById('imagePreview');
+    if (imageSrc) {
+        preview.querySelector('img').src = imageSrc;
+        preview.classList.remove('hidden');
+    } else {
+        preview.classList.add('hidden');
     }
 
     document.getElementById('modalTitle').textContent = 'Edit Note';
@@ -368,8 +374,15 @@ function applyFilters() {
     filteredNotes = allNotes.filter(note => {
         // Search filter
         if (searchTerm) {
-            const matchesTitle = note.title?.toLowerCase().includes(searchTerm);
-            const matchesContent = note.content?.toLowerCase().includes(searchTerm);
+            const titleText = note.title || '';
+            const legacyContent = note.content || '';
+            const textContent = note.textContent || '';
+            const codeContent = note.codeContent || '';
+
+            const combinedContent = `${legacyContent} ${textContent} ${codeContent}`.toLowerCase();
+
+            const matchesTitle = titleText.toLowerCase().includes(searchTerm);
+            const matchesContent = combinedContent.includes(searchTerm);
             if (!matchesTitle && !matchesContent) return false;
         }
         
@@ -488,18 +501,36 @@ function createNoteCard(note) {
         image: { icon: 'fa-image', color: '#f85149', bg: 'from-red-500/20 to-red-600/20', border: '#30363d' }
     };
     
-    const config = iconConfig[note.contentType] || iconConfig.text;
+    const hasText = !!(note.textContent || (note.contentType === 'text' && note.content));
+    const hasCode = !!(note.codeContent || (note.contentType === 'code' && note.content));
+    const hasImage = !!(note.imageUrl || (note.contentType === 'image' && note.fileUrl));
 
-    const preview = note.contentType === 'text' 
-        ? `<p class="text-[#7d8590] line-clamp-3 mt-3 text-sm leading-relaxed">${escapeHtml(note.content.substring(0, 120))}${note.content.length > 120 ? '...' : ''}</p>`
-        : note.contentType === 'code'
+    let primaryType = 'text';
+    if (hasImage) {
+        primaryType = 'image';
+    } else if (hasCode) {
+        primaryType = 'code';
+    } else if (hasText) {
+        primaryType = 'text';
+    }
+
+    const config = iconConfig[primaryType] || iconConfig.text;
+
+    const textPreviewSource = (note.textContent || (note.contentType === 'text' ? note.content : '') || '');
+    const codeLanguage = note.codeLanguage || note.fileData?.language || '';
+
+    const preview = hasText
+        ? `<p class="text-[#7d8590] line-clamp-3 mt-3 text-sm leading-relaxed">${escapeHtml(textPreviewSource.substring(0, 120))}${textPreviewSource.length > 120 ? '...' : ''}</p>`
+        : hasCode
         ? `<div class="mt-3 flex items-center gap-2 flex-wrap">
             <span class="px-2.5 py-1 bg-gradient-to-r ${config.bg} text-[#7ee787] rounded-md text-xs font-semibold border border-[#30363d]">Code</span>
-            ${note.fileData?.language ? `<span class="px-2.5 py-1 bg-[#21262d] text-[#7d8590] rounded-md text-xs font-medium border border-[#30363d]">${escapeHtml(note.fileData.language)}</span>` : ''}
+            ${codeLanguage ? `<span class="px-2.5 py-1 bg-[#21262d] text-[#7d8590] rounded-md text-xs font-medium border border-[#30363d]">${escapeHtml(codeLanguage)}</span>` : ''}
           </div>`
-        : `<div class="mt-3">
+        : hasImage
+        ? `<div class="mt-3">
             <span class="px-2.5 py-1 bg-gradient-to-r ${config.bg} text-[#f85149] rounded-md text-xs font-semibold border border-[#30363d]">Image</span>
-          </div>`;
+          </div>`
+        : '';
 
     return `
         <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-5 hover:border-[#1f6feb] transition-all cursor-pointer group card-glow" onclick="viewNote('${note.id}')">
@@ -546,32 +577,48 @@ window.viewNote = async function (noteId) {
 
     let contentHtml = '';
 
-    if (note.contentType === 'text') {
-        contentHtml = `<div class="prose prose-invert max-w-none">
-           <p class="whitespace-pre-wrap text-[#e6edf3] leading-relaxed text-base">${escapeHtml(note.content)}</p>
+    const textValue = note.textContent ?? (note.contentType === 'text' ? note.content : '');
+    const codeValue = note.codeContent ?? (note.contentType === 'code' ? note.content : '');
+    const codeLanguage = note.codeLanguage ?? (note.fileData?.language || '');
+    const imageSrc = note.imageUrl || (note.contentType === 'image' ? note.fileUrl : null);
+    const imageMeta = note.imageMeta || note.fileData || null;
+
+    // Text block (if any)
+    if (textValue) {
+        contentHtml += `<div class="prose prose-invert max-w-none mb-6">
+           <p class="whitespace-pre-wrap text-[#e6edf3] leading-relaxed text-base">${escapeHtml(textValue)}</p>
         </div>`;
-    } else if (note.contentType === 'code') {
-        contentHtml = `
-            ${note.fileData?.language ? `<div class="mb-5 px-4 py-2.5 bg-gradient-to-r from-[#238636]/20 to-[#2ea043]/20 border border-[#30363d] rounded-lg inline-flex items-center space-x-3 shadow-lg">
+    }
+
+    // Code block (if any)
+    if (codeValue) {
+        const escapedCode = escapeHtml(codeValue);
+        const codeForCopy = escapedCode.replace(/'/g, "\\'");
+
+        contentHtml += `
+            ${codeLanguage ? `<div class="mb-5 px-4 py-2.5 bg-gradient-to-r from-[#238636]/20 to-[#2ea043]/20 border border-[#30363d] rounded-lg inline-flex items-center space-x-3 shadow-lg">
                 <i class="fas fa-code text-[#7ee787] text-lg"></i>
-                <span class="text-sm font-semibold text-[#e6edf3]">${escapeHtml(note.fileData.language)}</span>
+                <span class="text-sm font-semibold text-[#e6edf3]">${escapeHtml(codeLanguage)}</span>
             </div>` : ''}
             <div class="bg-[#010409] border border-[#30363d] rounded-xl p-5 overflow-x-auto mt-4 shadow-2xl code-block">
-                <pre class="text-[#7ee787] font-mono text-sm leading-relaxed"><code>${escapeHtml(note.content)}</code></pre>
+                <pre class="text-[#7ee787] font-mono text-sm leading-relaxed"><code>${escapedCode}</code></pre>
             </div>
-            <button onclick="copyToClipboard('${escapeHtml(note.content).replace(/'/g, "\\'")}')" 
+            <button onclick="copyToClipboard('${codeForCopy}')" 
                 class="mt-5 px-5 py-2.5 bg-[#21262d] hover:bg-[#30363d] rounded-lg transition-all border border-[#30363d] text-[#7ee787] hover:text-[#9ef0a0] text-sm font-semibold transform hover:scale-105">
                 <i class="fas fa-copy mr-2"></i>Copy Code
             </button>
         `;
-    } else if (note.contentType === 'image') {
-        contentHtml = `
-            ${note.fileData?.fileName ? `<div class="mb-5 px-4 py-2.5 bg-gradient-to-r from-[#da3633]/20 to-[#f85149]/20 border border-[#30363d] rounded-lg shadow-lg">
-                <p class="text-sm text-[#e6edf3] font-semibold"><i class="fas fa-file-image mr-2 text-[#f85149]"></i>${escapeHtml(note.fileData.fileName)}</p>
-                ${note.fileData?.fileSize ? `<p class="text-xs text-[#7d8590] mt-1.5">${escapeHtml(note.fileData.fileSize)}</p>` : ''}
+    }
+
+    // Image block (if any)
+    if (imageSrc) {
+        contentHtml += `
+            ${imageMeta?.fileName ? `<div class="mb-5 px-4 py-2.5 bg-gradient-to-r from-[#da3633]/20 to-[#f85149]/20 border border-[#30363d] rounded-lg shadow-lg">
+                <p class="text-sm text-[#e6edf3] font-semibold"><i class="fas fa-file-image mr-2 text-[#f85149]"></i>${escapeHtml(imageMeta.fileName)}</p>
+                ${imageMeta?.fileSize ? `<p class="text-xs text-[#7d8590] mt-1.5">${escapeHtml(imageMeta.fileSize)}</p>` : ''}
             </div>` : ''}
-            <div class="flex justify-center">
-                <img src="${note.fileUrl}" alt="${escapeHtml(note.title)}" class="max-w-full h-auto rounded-xl border border-[#30363d] shadow-2xl">
+            <div class="flex justify-center mt-4">
+                <img src="${imageSrc}" alt="${escapeHtml(note.title)}" class="max-w-full h-auto rounded-xl border border-[#30363d] shadow-2xl">
             </div>
         `;
     }
@@ -634,9 +681,20 @@ window.openAnalyticsModal = function() {
     
     // Calculate statistics
     const totalNotes = allNotes.length;
-    const textNotes = allNotes.filter(n => n.contentType === 'text').length;
-    const codeNotes = allNotes.filter(n => n.contentType === 'code').length;
-    const imageNotes = allNotes.filter(n => n.contentType === 'image').length;
+
+    let textNotes = 0;
+    let codeNotes = 0;
+    let imageNotes = 0;
+
+    allNotes.forEach(note => {
+        const hasText = !!(note.textContent || (note.contentType === 'text' && note.content));
+        const hasCode = !!(note.codeContent || (note.contentType === 'code' && note.content));
+        const hasImage = !!(note.imageUrl || (note.contentType === 'image' && note.fileUrl));
+
+        if (hasText) textNotes += 1;
+        if (hasCode) codeNotes += 1;
+        if (hasImage) imageNotes += 1;
+    });
     
     // Content type distribution
     const contentTypeData = [
@@ -671,8 +729,9 @@ window.openAnalyticsModal = function() {
     // Most used languages
     const languages = {};
     allNotes.forEach(note => {
-        if (note.contentType === 'code' && note.fileData?.language) {
-            const lang = note.fileData.language;
+        const lang = note.codeLanguage || note.fileData?.language;
+        const hasCode = !!(note.codeContent || (note.contentType === 'code' && note.content));
+        if (hasCode && lang) {
             languages[lang] = (languages[lang] || 0) + 1;
         }
     });

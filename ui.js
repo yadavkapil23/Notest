@@ -17,8 +17,6 @@ function openAddNoteModal() {
     if (!window.currentEditingNoteId) {
         document.getElementById('modalTitle').textContent = 'New Note';
         resetNoteForm();
-    } else {
-        handleContentTypeChange();
     }
 }
 
@@ -36,11 +34,6 @@ function closeViewNoteModal() {
 
 function resetNoteForm() {
     document.getElementById('noteForm').reset();
-    const textRadio = document.querySelector('input[name="contentType"][value="text"]');
-    if (textRadio) {
-        textRadio.checked = true;
-    }
-    handleContentTypeChange();
 
     // Reset file previews
     document.getElementById('imagePreview').classList.add('hidden');
@@ -53,25 +46,7 @@ function resetNoteForm() {
 // ============ Content Type Handling ============
 
 function handleContentTypeChange() {
-    const contentTypeRadio = document.querySelector('input[name="contentType"]:checked');
-    const contentType = contentTypeRadio ? contentTypeRadio.value : 'text';
-
-    // Hide all content sections
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.add('hidden');
-    });
-
-    // Show selected content section
-    const sectionMap = {
-        'text': 'textContent',
-        'code': 'codeContent',
-        'image': 'imageContent'
-    };
-
-    const targetSection = document.getElementById(sectionMap[contentType]);
-    if (targetSection) {
-        targetSection.classList.remove('hidden');
-    }
+    // no-op: legacy function kept for backward compatibility
 }
 
 // ============ File Preview ============
@@ -214,7 +189,6 @@ window.toggleAuthForms = toggleAuthForms;
 window.openAddNoteModal = openAddNoteModal;
 window.closeNoteModal = closeNoteModal;
 window.closeViewNoteModal = closeViewNoteModal;
-window.handleContentTypeChange = handleContentTypeChange;
 window.handleFilePreview = handleFilePreview;
 window.showLoading = showLoading;
 window.hideLoading = hideLoading;
